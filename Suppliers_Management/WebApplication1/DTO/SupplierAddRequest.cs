@@ -8,14 +8,14 @@ namespace WebApplication1.DTO
     {
 
         [Required]
-        public int Id { get; set; }
+        public int SupplierId { get; set; }
 
         [Required]
         [StringLength(80, MinimumLength = 3)]
-        public string? Name { get; set; }
+        public string? SupplierName { get; set; }
 
         [Required]
-        public int CategoryCode { get; set; }
+        public int CategoryId { get; set; }
 
         [Required]
         [StringLength(9, MinimumLength = 9)]
@@ -35,7 +35,7 @@ namespace WebApplication1.DTO
         public string? Email { get; set; }
 
         [Required]
-        public int CountryCode { get; set; }
+        public int CountryId { get; set; }
         public bool IsActive { get; set; }
 
 
@@ -43,14 +43,14 @@ namespace WebApplication1.DTO
         {
             return new Supplier()
             {
-                Id = Id,
-                Name = Name,
-                CategoryCode = CategoryCode,
+                SupplierId = SupplierId,
+                SupplierName = SupplierName,
+                CategoryId = CategoryId,
                 Tid = Tid,
                 Address = Address,
                 Phone = Phone,
                 Email = Email,
-                CountryCode = CountryCode,
+                CountryId = CountryId,
                 IsActive = IsActive
             };
         }

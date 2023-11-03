@@ -1,19 +1,22 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.Metrics;
 using WebApplication1.CustomValidators;
 
 namespace WebApplication1.Entities
 {
+    [Table("Suppliers")]
     public class Supplier
     {
-        public int Id { get; set; }  // primary key
+        [Key]
+        public int SupplierId { get; set; }  // primary key
 
         [Required]
         [StringLength(80, MinimumLength = 3)]
-        public string? Name { get; set; }
+        public string? SupplierName { get; set; }
 
         [Required]
-        public int CategoryCode { get; set; }  // foreign key to Category lookup table
+        public int CategoryId { get; set; }  // foreign key to Category lookup table
 
         [Required]
         [StringLength(9, MinimumLength = 9)]
@@ -33,7 +36,7 @@ namespace WebApplication1.Entities
         public string? Email { get; set; }
 
         [Required]
-        public int CountryCode { get; set; }  // foreign key to Country lookup table
+        public int CountryId { get; set; }  // foreign key to Country lookup table
 
         public bool IsActive { get; set; }  // true for Active, false for Inactive
 

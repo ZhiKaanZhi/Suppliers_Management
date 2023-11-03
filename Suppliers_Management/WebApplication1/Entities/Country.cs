@@ -1,10 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebApplication1.Entities
 {
+    [Table("Countries")]
     public class Country
     {
-        public int CountryCode { get; set; }  // primary key
+        [Key]
+        public int CountryId { get; set; }  // primary key
 
         [Required]
         public string? CountryName { get; set; }
@@ -12,5 +15,4 @@ namespace WebApplication1.Entities
         // Navigation Property
         public virtual ICollection<Supplier>? Suppliers { get; set; }  // Link back to suppliers
     }
-}
 }

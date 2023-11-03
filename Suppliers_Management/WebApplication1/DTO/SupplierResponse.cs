@@ -9,14 +9,14 @@ namespace WebApplication1.DTO
 {
     public class SupplierResponse
     {
-        public int Id { get; set; }  
-        public string? Name { get; set; }    
-        public int CategoryCode { get; set; }  
+        public int SupplierId { get; set; }  
+        public string? SupplierName { get; set; }    
+        public int CategoryId { get; set; }  
         public string? Tid { get; set; }
         public string? Address { get; set; }
         public string? Phone { get; set; }
         public string? Email { get; set; }
-        public int CountryCode { get; set; }  
+        public int CountryId { get; set; }  
         public bool IsActive { get; set; }
 
         public override bool Equals(object? obj)
@@ -26,7 +26,7 @@ namespace WebApplication1.DTO
             if (obj.GetType() != typeof(SupplierResponse)) return false;
 
             SupplierResponse supplier = (SupplierResponse)obj;
-            return Id == supplier.Id && Name == supplier.Name && CategoryCode == supplier.CategoryCode && Tid == supplier.Tid && Address == supplier.Address && Phone == supplier.Phone && Email == supplier.Email && CountryCode == supplier.CountryCode && IsActive == supplier.IsActive;
+            return SupplierId == supplier.SupplierId && SupplierName == supplier.SupplierName && CategoryId == supplier.CategoryId && Tid == supplier.Tid && Address == supplier.Address && Phone == supplier.Phone && Email == supplier.Email && CountryId == supplier.CountryId && IsActive == supplier.IsActive;
         }
         public override int GetHashCode()
         {
@@ -34,12 +34,12 @@ namespace WebApplication1.DTO
         }
         public override string ToString()
         {
-            return $"Supplier ID: {Id}, Supplier Name: {Name}, Category: {CategoryCode}, Taxpayer ID: {Tid}, Address: {Address}, Phone: {Phone}, Email: {Email}, Country: {CountryCode}, Active: {IsActive}";
+            return $"Supplier ID: {SupplierId}, Supplier SupplierName: {SupplierName}, Category: {CategoryId}, Taxpayer ID: {Tid}, Address: {Address}, Phone: {Phone}, Email: {Email}, Country: {CountryId}, Active: {IsActive}";
         }
 
         public SupplierUpdateRequest ToSupplierUpdateRequest()
         {
-            return new SupplierUpdateRequest() { Id = Id, Name = Name, CategoryCode = CategoryCode, Tid = Tid, Address = Address, Phone = Phone, Email = Email, CountryCode = CountryCode, IsActive = IsActive };
+            return new SupplierUpdateRequest() { SupplierId = SupplierId, SupplierName = SupplierName, CategoryId = CategoryId, Tid = Tid, Address = Address, Phone = Phone, Email = Email, CountryId = CountryId, IsActive = IsActive };
         }
     }
 
@@ -51,14 +51,14 @@ namespace WebApplication1.DTO
             //person => convert => PersonResponse
             return new SupplierResponse()
             {
-                Id = supplier.Id,
-                Name = supplier.Name,
-                CategoryCode = supplier.CategoryCode,
+                SupplierId = supplier.SupplierId,
+                SupplierName = supplier.SupplierName,
+                CategoryId = supplier.CategoryId,
                 Tid = supplier.Tid,
                 Address = supplier.Address,
                 Phone = supplier.Phone,
                 Email = supplier.Email,
-                CountryCode = supplier.CountryCode,
+                CountryId = supplier.CountryId,
                 IsActive = supplier.IsActive,
             };
         }
