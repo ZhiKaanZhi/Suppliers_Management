@@ -1,13 +1,17 @@
-﻿@model WebApplication1.Entities.Supplier
+﻿@model WebApplication1.DTO.SupplierDTOs.SupplierAddRequest
 @{
+    ViewBag.Title = "Add Supplier";
 }
+
+
+<a asp-controller="Supplier" asp-action="Index" class="link-hover">Back to Suppliers List</a>
 <div class="mt-2" style="width:50%">
-    <form asp-action="AddSupplier">
+    <form asp-controller="Supplier" asp-action="AddSupplier" method="post">
         <h2>Add Supplier</h2>
         <div class="mb-3">
-            <label asp-for="Name" class="form-label">Name</label>
-            <input asp-for="Name" type="text" class="form-control">
-            <span class="text-danger" asp-validation-for="Name"></span>
+            <label asp-for="SupplierName" class="form-label">Name</label>
+            <input asp-for="SupplierName" type="text" class="form-control">
+            <span class="text-danger" asp-validation-for="SupplierName"></span>
         </div>
         <div class="mb-3">
             <label asp-for="Tid" class="form-label">Taxpayer ID</label>
@@ -30,27 +34,36 @@
             <span class="text-danger" asp-validation-for="Email"></span>
         </div>
         <div class="mb-3">
-            <label asp-for="CategoryId" class="form-label">Supplier Category Select</label>
-            <select asp-for="CategoryId" id="categorySelect" class="form-select">
+            <label asp-for="CategoryName" class="form-label">Supplier Category</label>
+            <select asp-for="CategoryName" id="categorySelect" class="form-select">
                 <option>Select</option>
-                <option value="1">Room</option>
-                <option value="2">Electrical</option>
+                @foreach (var category in Model.Categories)
+                {
+                    <option value="@category.Description">@category.Description</option>
+                }
             </select>
-            <span class="text-danger" asp-validation-for="CategoryId"></span>
+            <span class="text-danger" asp-validation-for="CategoryName"></span>
         </div>
         <div class="mb-3">
-            <label asp-for="CountryId" class="form-label">Supplier Country Select</label>
-            <select asp-for="CountryId" id="categorySelect" class="form-select">
+            <label asp-for="CountryName" class="form-label">Supplier Country</label>
+            <select asp-for="CountryName" id="countrySelect" class="form-select">
                 <option>Select</option>
-                <option value="1">Greece</option>
-                <option value="2">France</option>
+                @foreach (var country in Model.Countries)
+                {
+                    <option value="@country.CountryName">@country.CountryName</option>
+                }
             </select>
-            <span class="text-danger" asp-validation-for="CountryId"></span>
+            <span class="text-danger" asp-validation-for="CountryName"></span>
         </div>
-        <div class="mb-3 form-check">
-            <input type="checkbox" class="form-check-input" asp-for="CategoryId" id="activeSupplierId" name="isActiveSupplier" value="True">
-            <label class="form-check-label" asp-for="CategoryId">Active Supplier</label>
+
+        <div class="mb-3">
+            <label asp-for="IsActive" class="form-label">Is Active Supplier?</label>
+            <select asp-for="IsActive" class="form-select">
+                <option value="true">Yes</option>
+                <option value="false">No</option>
+            </select>
         </div>
+        
 
         @if(TempData["msg"] != null)
         {

@@ -7,7 +7,7 @@ namespace WebApplication1.Controllers
         [Route("/")]
         public IActionResult Index()
         {
-            ViewBag.greeting = "Hello World";
+            ViewBag.greeting = "Supplier Management Home Page";
             return View();
         }
     }

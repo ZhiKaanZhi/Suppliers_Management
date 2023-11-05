@@ -16,11 +16,10 @@ namespace WebApplication1.DTO.SupplierDTOs
         public string? SupplierName { get; set; }
 
         [Required]
-        public int CategoryId { get; set; }
+        public String? Categoryname { get; set; }
 
         [Required]
         [StringLength(9, MinimumLength = 9)]
-        [TidValidation]
         public string? Tid { get; set; }
 
         [StringLength(10, MinimumLength = 5)]
@@ -36,8 +35,11 @@ namespace WebApplication1.DTO.SupplierDTOs
         public string? Email { get; set; }
 
         [Required]
-        public int CountryId { get; set; }
+        public String? CountryName { get; set; }
         public bool IsActive { get; set; }
+
+        public List<SupplierCategory> Categories { get; set; } = new List<SupplierCategory>();
+        public List<Country> Countries { get; set; } = new List<Country>();
 
 
         public Supplier ToSupplier()
@@ -46,12 +48,12 @@ namespace WebApplication1.DTO.SupplierDTOs
             {
                 SupplierId = SupplierId,
                 SupplierName = SupplierName,
-                CategoryId = CategoryId,
+                CategoryId = Guid.Empty,
                 Tid = Tid,
                 Address = Address,
                 Phone = Phone,
                 Email = Email,
-                CountryId = CountryId,
+                CountryId = Guid.Empty,
                 IsActive = IsActive
             };
         }

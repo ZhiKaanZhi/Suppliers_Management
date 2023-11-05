@@ -1,0 +1,39 @@
+﻿@model IEnumerable<SupplierCategoryResponse>
+
+@{
+    ViewBag.Title = "Supplier Categories";
+}
+
+
+<h1>Supplier Categories</h1>
+<a asp-controller="SupplierCategory" asp-action="AddSupplierCategory" class="btn btn-primary">Add a Supplier Category</a>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Supplier Category</th>
+            <th>Action</th>
+        </tr>
+
+        @foreach (var supplierCategory in Model)
+        {
+            <tr>
+                <td>
+                    @supplierCategory.CategoryId
+                </td>
+                <td>@supplierCategory.Description</td>
+                <td>
+                    <a class="btn btn-success" href="/suppliercategory/EditSupplierCategory/@supplierCategory.CategoryId">Edit</a>
+                    <form asp-action="DeleteSupplierCategory" asp-route-id="@supplierCategory.CategoryId" method="post" style="display:inline;">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </thead>
+</table>
+<div>
+    <a href="/" class="btn btn-secondary">Back to Home Page</a>
+</div>
+

@@ -37,6 +37,11 @@ namespace WebApplication1.DTO.SupplierCategoryDTOs
         {
             return new SupplierCategoryUpdateRequest() { CategoryId = CategoryId, Description = Description};
         }
+
+        public SupplierCategory ToSupplierCategory()
+        {
+            return new SupplierCategory() { CategoryId = CategoryId, Description = Description };
+        }
     }
     public static class SupplierCategoryExtensions
     {

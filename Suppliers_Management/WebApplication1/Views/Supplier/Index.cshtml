@@ -1,4 +1,48 @@
-﻿@{
+﻿@model IEnumerable<SupplierResponse>
+
+@{
+    ViewBag.Title = "Suppliers";
 }
 
-<h2>@ViewBag.greeting</h2>
+
+<h1>Suppliers</h1>
+<a asp-controller="Supplier" asp-action="AddSupplier" class="btn btn-primary">Add a Supplier</a>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Supplier Name</th>
+            <th>Category</th>
+            <th>Taxpayer ID</th>
+            <th>Address</th>
+            <th>Phone</th>
+            <th>Email</th>
+            <th>Country</th>
+            <th>Active</th>
+            <th>Action</th>
+        </tr>
+
+        @foreach (var supplier in Model)
+        {
+            <tr>
+                <td>@supplier.SupplierName</td>
+                <td>@supplier.CategoryName</td>
+                <td>@supplier.Tid</td>
+                <td>@supplier.Address</td>
+                <td>@supplier.Phone</td>
+                <td>@supplier.Email</td>
+                <td>@supplier.CategoryName</td>
+                <td>@supplier.IsActive</td>
+                <td>
+                    <a class="btn btn-success" href="/supplier/EditSupplier/@supplier.SupplierId">Edit</a>
+                    <form asp-action="DeleteSupplier" asp-route-id="@supplier.SupplierId" method="post" style="display:inline;">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </thead>
+</table>
+<div>
+    <a href="/" class="btn btn-secondary">Back to Home Page</a>
+</div>

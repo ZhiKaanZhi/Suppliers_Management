@@ -16,11 +16,11 @@ namespace WebApplication1.Entities
         public string? SupplierName { get; set; }
 
         [Required]
-        public int CategoryId { get; set; }  // foreign key to Category lookup table
+        public Guid CategoryId { get; set; }  // foreign key to Category lookup table
 
         [Required]
         [StringLength(9, MinimumLength = 9)]
-        [TidValidation]
+        //[TidValidation]
         public string? Tid { get; set; }
 
         [StringLength(10, MinimumLength = 5)]
@@ -36,7 +36,7 @@ namespace WebApplication1.Entities
         public string? Email { get; set; }
 
         [Required]
-        public int CountryId { get; set; }  // foreign key to Country lookup table
+        public Guid CountryId { get; set; }  // foreign key to Country lookup table
 
         public bool IsActive { get; set; }  // true for Active, false for Inactive
 

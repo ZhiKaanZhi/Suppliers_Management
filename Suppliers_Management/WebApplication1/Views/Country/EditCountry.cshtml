@@ -1,0 +1,39 @@
+﻿@model WebApplication1.DTO.CountryDTOs.CountryUpdateRequest
+@{
+    ViewBag.Title = "Edit Country";
+}
+
+<a asp-controller="CountryResponse" asp-action="Index" class="link-hover">Back to Countries List</a>
+<div class="mt-2" style="width:50%">
+    <form asp-controller="Country" asp-action="EditCountry" method="post">
+        <h2>Edit Country</h2>
+        <input asp-for="CountryId" type="hidden">
+        <div class="mb-3">
+            <label asp-for="CountryName" class="form-label pt">Country Name</label>
+            <input asp-for="CountryName" type="text" class="form-input">
+            <span class="text-danger" asp-validation-for="CountryName"></span>
+        </div>
+
+        <div class="form-field flex">
+            <div class="w-25">
+            </div>
+            <div class="flex-1">
+                <button type="submit" class="btn btn-primary">Submit</button>
+
+                <div asp-validation-summary="All" class="text-red"></div>
+
+                @if (ViewBag.Errors != null)
+                {
+                    <div class="text-red ml">
+                        <ul>
+                            @foreach (string error in ViewBag.Errors)
+                            {
+                                <li class="ml">@error</li>
+                            }
+                        </ul>
+                    </div>
+                }
+            </div>
+        </div>
+    </form>
+</div>

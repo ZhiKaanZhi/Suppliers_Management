@@ -34,6 +34,11 @@ namespace WebApplication1.DTO.CountryDTOs
         {
             return new CountryUpdateRequest() { CountryId = CountryId, CountryName = CountryName };
         }
+
+        public Country ToCountry()
+        {
+            return new Country() { CountryId = CountryId, CountryName = CountryName };
+        }
     }
     public static class CountryExtensions
     {

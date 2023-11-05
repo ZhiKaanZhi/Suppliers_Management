@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using WebApplication1.DTO.SupplierDTOs;
+using WebApplication1.Entities;
 
 namespace WebApplication1.DTO.SupplierCategoryDTOs
 {
@@ -11,9 +12,9 @@ namespace WebApplication1.DTO.SupplierCategoryDTOs
         [Required]
         public string? Description { get; set; }
 
-        public SupplierCategoryAddRequest toSupplierCategoryAddRequest()
+        public SupplierCategory toSupplierCategory()
         {
-            return new SupplierCategoryAddRequest()
+            return new SupplierCategory()
             {
                 CategoryId = CategoryId,
                 Description = Description
