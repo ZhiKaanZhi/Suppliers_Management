@@ -1,14 +1,14 @@
 ﻿using WebApplication1.Entities;
 using WebApplication1.DTO;
 
-namespace WebApplication1.RepositoryInterfaces
+namespace WebApplication1.Repositories.RepositoryInterfaces
 {
     public interface ISupplierRepository
     {
-        SupplierResponse Get(int id);
-        IEnumerable<Supplier> GetAll();
-        SupplierResponse Add(SupplierAddRequest supplierAddRequest);
-        SupplierResponse Update(SupplierUpdateRequest supplierUpdateRequest);
-        bool Remove(int id);
+        Task<Supplier?> GetSupplierBySupplierID(Guid? id);
+        Task<List<Supplier>> GetAllSuppliers();
+        Task<Supplier> AddSupplier(Supplier? supplier);
+        Task<Supplier> UpdateSupplier(Supplier? supplier);
+        Task<bool> DeleteSupplier(Guid? id);
     }
 }

@@ -1,63 +1,102 @@
-﻿using WebApplication1.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using Services.Helpers;
+using System;
+using WebApplication1.Data;
 using WebApplication1.DTO;
 using WebApplication1.Entities;
-using WebApplication1.RepositoryInterfaces;
+using WebApplication1.Repositories.RepositoryInterfaces;
 
 namespace WebApplication1.Repositories
 {
     public class SupplierRepository : ISupplierRepository
     {
+        private readonly DatabaseContext _db;
 
-        private readonly DatabaseContext _context;
-
-        public SupplierRepository(DatabaseContext context)
+        public SupplierRepository(DatabaseContext db)
         {
-            _context = context;
+            _db = db;
         }
 
-        public SupplierResponse Add(SupplierAddRequest supplierAddRequest)
+        public async Task<Supplier> AddSupplier(Supplier? supplier)
         {
-            if (supplierAddRequest == null)
+            if (supplier == null)
             {
-                throw new ArgumentNullException(nameof(supplierAddRequest));
+                throw new ArgumentNullException(nameof(supplier));
             }
-            Supplier supplier = supplierAddRequest.ToSupplier();
-            _context.Add(supplier);
 
-            return supplier.ToPersonResponse();
+            ValidationHelper.ModelValidation(supplier);
+
+            supplier.SupplierId = Guid.NewGuid();
+            _db.Add(supplier);
+            await _db.SaveChangesAsync();
+            return supplier;
         }
 
-        public SupplierResponse? Get(int? id)
+        public async Task<bool> DeleteSupplier(Guid? id)
         {
             if (id == null)
+            {
+                throw new ArgumentNullException(nameof(id));
+            }
+
+            Supplier? supplier = await _db.Suppliers.FirstOrDefaultAsync(temp => temp.SupplierId == id);
+            if (supplier == null) { return false; }
+
+            _db.Suppliers.Remove(_db.Suppliers.First(temp => temp.SupplierId == id));
+            await _db.SaveChangesAsync();
+            return true;
+        }
+
+
+        public async Task<List<Supplier>> GetAllSuppliers()
+        {
+            var Suppliers = await _db.Suppliers.ToListAsync();
+            return Suppliers;
+        }
+
+        public async Task<Supplier?> GetSupplierBySupplierID(Guid? id)
+        {
+            if (id == null)
+            {
                 return null;
-            
-            Supplier? supplier = _context.Suppliers.Find(id);
+            }
+
+            Supplier? supplier = await _db.Suppliers.FirstOrDefaultAsync(temp => temp.SupplierId == id);
 
             if (supplier == null)
+            {
                 return null;
+            }
 
-            return supplier.ToPersonResponse();
+            return supplier;
+
         }
 
-        public SupplierResponse Get(int id)
+        public async Task<Supplier> UpdateSupplier(Supplier? supplier)
         {
-            throw new NotImplementedException();
-        }
+            if (supplier == null) { throw new ArgumentNullException(nameof(supplier)); }
 
-        public IEnumerable<Supplier> GetAll()
-        {
-            throw new NotImplementedException();
-        }
+            ValidationHelper.ModelValidation(supplier);
 
-        public bool Remove(int id)
-        {
-            throw new NotImplementedException();
-        }
+            Supplier? matchingSupplier = await _db.Suppliers.FirstOrDefaultAsync(temp => temp.SupplierId == supplier.SupplierId);
+            if (matchingSupplier == null)
+            {
+                throw new ArgumentException("Given supplier id doesn't exist");
+            }
 
-        public SupplierResponse Update(SupplierUpdateRequest supplierUpdateRequest)
-        {
-            throw new NotImplementedException();
+            matchingSupplier.SupplierId = supplier.SupplierId;
+            matchingSupplier.SupplierName = supplier.SupplierName;
+            matchingSupplier.Address = supplier.Address;
+            matchingSupplier.Email = supplier.Email;
+            matchingSupplier.Country = supplier.Country;
+            matchingSupplier.Phone = supplier.Phone;
+            matchingSupplier.CategoryId = supplier.CategoryId;
+            matchingSupplier.CountryId = supplier.CountryId;
+            matchingSupplier.Tid = supplier.Tid;
+
+            await _db.SaveChangesAsync();
+
+            return matchingSupplier;
         }
     }
 }

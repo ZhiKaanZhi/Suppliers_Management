@@ -9,7 +9,7 @@ namespace WebApplication1.Entities
     public class Supplier
     {
         [Key]
-        public int SupplierId { get; set; }  // primary key
+        public Guid SupplierId { get; set; }  // primary key
 
         [Required]
         [StringLength(80, MinimumLength = 3)]

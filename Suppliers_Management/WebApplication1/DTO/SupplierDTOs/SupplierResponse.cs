@@ -5,18 +5,18 @@ using System.Reflection;
 using WebApplication1.CustomValidators;
 using WebApplication1.Entities;
 
-namespace WebApplication1.DTO
+namespace WebApplication1.DTO.SupplierDTOs
 {
     public class SupplierResponse
     {
-        public int SupplierId { get; set; }  
-        public string? SupplierName { get; set; }    
-        public int CategoryId { get; set; }  
+        public Guid SupplierId { get; set; }
+        public string? SupplierName { get; set; }
+        public int CategoryId { get; set; }
         public string? Tid { get; set; }
         public string? Address { get; set; }
         public string? Phone { get; set; }
         public string? Email { get; set; }
-        public int CountryId { get; set; }  
+        public int CountryId { get; set; }
         public bool IsActive { get; set; }
 
         public override bool Equals(object? obj)
@@ -46,9 +46,9 @@ namespace WebApplication1.DTO
 
     public static class SupplierExtensions
     {
-        public static SupplierResponse ToPersonResponse(this Supplier supplier)
+        public static SupplierResponse ToSupplierResponse(this Supplier supplier)
         {
-            //person => convert => PersonResponse
+
             return new SupplierResponse()
             {
                 SupplierId = supplier.SupplierId,

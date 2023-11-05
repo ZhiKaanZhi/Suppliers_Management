@@ -1,15 +1,14 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.Reflection;
+﻿using System.ComponentModel.DataAnnotations;
 using WebApplication1.CustomValidators;
 using WebApplication1.Entities;
 
-namespace WebApplication1.DTO
+namespace WebApplication1.DTO.SupplierDTOs
 {
-    public class SupplierUpdateRequest
+    public class SupplierAddRequest
     {
+
         [Required]
-        public int SupplierId { get; set; }
+        public Guid SupplierId { get; set; }
 
         [Required]
         [StringLength(80, MinimumLength = 3)]
@@ -42,9 +41,9 @@ namespace WebApplication1.DTO
 
         public Supplier ToSupplier()
         {
-            return new Supplier() 
-            { 
-                SupplierId = SupplierId,  
+            return new Supplier()
+            {
+                SupplierId = SupplierId,
                 SupplierName = SupplierName,
                 CategoryId = CategoryId,
                 Tid = Tid,
@@ -57,4 +56,3 @@ namespace WebApplication1.DTO
         }
     }
 }
-

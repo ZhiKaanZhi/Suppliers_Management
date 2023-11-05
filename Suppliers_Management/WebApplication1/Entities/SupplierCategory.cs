@@ -7,7 +7,7 @@ namespace WebApplication1.Entities
     public class SupplierCategory
     {
         [Key]
-        public int CategoryId { get; set; }  // primary key
+        public Guid CategoryId { get; set; }  // primary key
 
         [Required]
         public string? Description { get; set; }

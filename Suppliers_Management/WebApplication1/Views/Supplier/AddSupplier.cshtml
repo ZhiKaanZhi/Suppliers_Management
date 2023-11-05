@@ -1,0 +1,66 @@
+﻿@model WebApplication1.Entities.Supplier
+@{
+}
+<div class="mt-2" style="width:50%">
+    <form asp-action="AddSupplier">
+        <h2>Add Supplier</h2>
+        <div class="mb-3">
+            <label asp-for="Name" class="form-label">Name</label>
+            <input asp-for="Name" type="text" class="form-control">
+            <span class="text-danger" asp-validation-for="Name"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Tid" class="form-label">Taxpayer ID</label>
+            <input asp-for="Tid" type="text" class="form-control">
+            <span class="text-danger" asp-validation-for="Tid"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Address" class="form-label">Address</label>
+            <input asp-for="Address" type="text" class="form-control">
+            <span class="text-danger" asp-validation-for="Address"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Phone" class="form-label">Phone number</label>
+            <input asp-for="Phone" type="text" class="form-control">
+            <span class="text-danger" asp-validation-for="Phone"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Email" class="form-label">Email</label>
+            <input asp-for="Email" type="email" class="form-control" id="Email" aria-describedby="emailHelp">
+            <span class="text-danger" asp-validation-for="Email"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="CategoryId" class="form-label">Supplier Category Select</label>
+            <select asp-for="CategoryId" id="categorySelect" class="form-select">
+                <option>Select</option>
+                <option value="1">Room</option>
+                <option value="2">Electrical</option>
+            </select>
+            <span class="text-danger" asp-validation-for="CategoryId"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="CountryId" class="form-label">Supplier Country Select</label>
+            <select asp-for="CountryId" id="categorySelect" class="form-select">
+                <option>Select</option>
+                <option value="1">Greece</option>
+                <option value="2">France</option>
+            </select>
+            <span class="text-danger" asp-validation-for="CountryId"></span>
+        </div>
+        <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" asp-for="CategoryId" id="activeSupplierId" name="isActiveSupplier" value="True">
+            <label class="form-check-label" asp-for="CategoryId">Active Supplier</label>
+        </div>
+
+        @if(TempData["msg"] != null)
+        {
+            <div class="mb-3">
+               @TempData["msg"];
+            </div>
+        }
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <a href="" class="btn btn-primary">All Suppliers</a>
+    </form>
+</div>
+

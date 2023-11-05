@@ -7,7 +7,7 @@ namespace WebApplication1.Entities
     public class Country
     {
         [Key]
-        public int CountryId { get; set; }  // primary key
+        public Guid CountryId { get; set; }  // primary key
 
         [Required]
         public string? CountryName { get; set; }
