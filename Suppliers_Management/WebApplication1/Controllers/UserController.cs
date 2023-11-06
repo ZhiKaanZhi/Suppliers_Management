@@ -50,7 +50,9 @@ namespace WebApplication1.Controllers
             return View(userLoginRequest);
         }
 
-        public IActionResult LogOut()
+        [Route("[action]")]
+        [HttpPost]
+        public IActionResult Logout()
         {
             HttpContext.SignOutAsync("CookieAuth");
             return RedirectToAction("Login");

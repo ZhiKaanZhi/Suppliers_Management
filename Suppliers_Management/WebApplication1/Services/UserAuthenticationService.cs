@@ -5,16 +5,16 @@ namespace WebApplication1.Services
 {
     public class UserAuthenticationService
     {
-        private readonly DatabaseContext _context;
+        private readonly DatabaseContext _db;
 
         public UserAuthenticationService(DatabaseContext context)
         {
-            _context = context;
+            _db = context;
         }
 
         public User? Authenticate(string username, string password)
         {
-            var user = _context.Users.SingleOrDefault(u => u.Username == username);
+            var user = _db.Users.SingleOrDefault(u => u.Username == username);
             if (user == null)
                 return null;
 

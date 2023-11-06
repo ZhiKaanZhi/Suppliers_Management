@@ -11,12 +11,14 @@ namespace WebApplication1.Services
         private readonly ISupplierRepository _supplierRepository;
         private readonly ISupplierCategoryService _supplierCategoryService;
         private readonly ICountryService _countryService;
+        private readonly INotificationService _notificationService;
 
-        public SupplierService(ISupplierRepository supplierRepository, ISupplierCategoryService supplierCategoryService, ICountryService countryService)
+        public SupplierService(ISupplierRepository supplierRepository, ISupplierCategoryService supplierCategoryService, ICountryService countryService, INotificationService notificationService)
         {
             _supplierRepository = supplierRepository;
             _supplierCategoryService = supplierCategoryService;
             _countryService = countryService;
+            _notificationService = notificationService;
         }
 
         public async Task<SupplierResponse> AddSupplier(SupplierAddRequest? supplierAddRequest)
@@ -40,6 +42,10 @@ namespace WebApplication1.Services
             }
 
             Supplier? supplierResponse = await _supplierRepository.AddSupplier(supplier);
+
+
+            //Email Notification Service Disabled
+            //await _notificationService.SendWelcomeEmailAsync(supplier.Email, supplier.SupplierName);
 
             return supplierResponse.ToSupplierResponse();
         }
