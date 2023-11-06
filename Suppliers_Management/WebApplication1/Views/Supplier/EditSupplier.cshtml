@@ -1,22 +1,22 @@
-﻿@model WebApplication1.DTO.SupplierDTOs.SupplierAddRequest
+﻿@model WebApplication1.DTO.SupplierDTOs.SupplierUpdateRequest
 @{
-    ViewBag.Title = "Add Supplier";
+    ViewBag.Title = "Edit Supplier";
 }
 
 
 <a asp-controller="Supplier" asp-action="Index" class="link-hover">Back to Suppliers List</a>
 <div class="mt-2" style="width:50%">
-    <form asp-controller="Supplier" asp-action="AddSupplier" method="post">
-        <h2>Add Supplier</h2>
+    <form asp-controller="Supplier" asp-action="EditSupplier" method="post">
+        <h2>Edit Supplier</h2>
         <input type="hidden" asp-for="SupplierId">
         <div class="mb-3">
             <label asp-for="SupplierName" class="form-label">Name</label>
-            <input asp-for="SupplierName" type="text" class="form-control">
+            <input asp-for="SupplierName" type="text" class="form-control" id="supplierNameInput">
             <span class="text-danger" asp-validation-for="SupplierName"></span>
         </div>
         <div class="mb-3">
             <label asp-for="Tid" class="form-label">Taxpayer ID</label>
-            <input asp-for="Tid" type="text" class="form-control">
+            <input asp-for="Tid" type="text" class="form-control" id="tidInput">
             <span class="text-danger" asp-validation-for="Tid"></span>
         </div>
         <div class="mb-3">
@@ -37,10 +37,17 @@
         <div class="mb-3">
             <label asp-for="CategoryName" class="form-label">Supplier Category</label>
             <select asp-for="CategoryName" id="categorySelect" class="form-select">
-                <option>Select</option>
+                <option value="">Select</option>
                 @foreach (var category in Model.Categories)
                 {
-                    <option value="@category.Description">@category.Description</option>
+                    if (Model.CategoryName == category.Description)
+                    {
+                        <option value="@category.Description" selected>@category.Description</option>
+                    }
+                    else
+                    {
+                        <option value="@category.Description">@category.Description</option>
+                    }
                 }
             </select>
             <span class="text-danger" asp-validation-for="CategoryName"></span>
@@ -48,10 +55,17 @@
         <div class="mb-3">
             <label asp-for="CountryName" class="form-label">Supplier Country</label>
             <select asp-for="CountryName" id="countrySelect" class="form-select">
-                <option>Select</option>
+                <option value="">Select</option>
                 @foreach (var country in Model.Countries)
                 {
-                    <option value="@country.CountryName">@country.CountryName</option>
+                    if (Model.CountryName == country.CountryName)
+                    {
+                        <option value="@country.CountryName" selected>@country.CountryName</option>
+                    }
+                    else
+                    {
+                        <option value="@country.CountryName">@country.CountryName</option>
+                    }
                 }
             </select>
             <span class="text-danger" asp-validation-for="CountryName"></span>
@@ -59,17 +73,17 @@
 
         <div class="mb-3">
             <label asp-for="IsActive" class="form-label">Is Active Supplier?</label>
-            <select asp-for="IsActive" class="form-select">
+            <select asp-for="IsActive" class="form-select" id="isActiveSelect">
                 <option value="true">Yes</option>
                 <option value="false">No</option>
             </select>
         </div>
-        
 
-        @if(TempData["msg"] != null)
+
+        @if (TempData["msg"] != null)
         {
             <div class="mb-3">
-               @TempData["msg"];
+                @TempData["msg"];
             </div>
         }
 
@@ -78,3 +92,21 @@
     </form>
 </div>
 
+
+<script>
+    
+    const isActiveSelect = document.getElementById('isActiveSelect');
+    const supplierNameInput = document.getElementById('supplierNameInput');
+    const tidInput = document.getElementById('tidInput');
+
+    
+    function updateDisabledFields() {
+        const isActive = isActiveSelect.value === "true";
+        supplierNameInput.disabled = !isActive;
+        tidInput.disabled = !isActive;
+    }
+
+    updateDisabledFields();
+
+    isActiveSelect.addEventListener('change', updateDisabledFields);
+</script>

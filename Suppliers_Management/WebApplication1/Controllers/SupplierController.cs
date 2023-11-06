@@ -94,6 +94,7 @@ namespace WebApplication1.Controllers
             }
 
             SupplierUpdateRequest supplierUpdateRequest = response.ToSupplierUpdateRequest();
+            await PopulateSupplierCategoriesAndCountriesForEdit(supplierUpdateRequest);
 
 
             return View(supplierUpdateRequest);
@@ -110,16 +111,27 @@ namespace WebApplication1.Controllers
                 return RedirectToAction("Index");
             }
 
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                SupplierResponse updatedSupplier = await _supplierService.UpdateSupplier(supplierUpdateRequest);
-                return RedirectToAction("Index");
-            }
-            else
-            {
+                await PopulateSupplierCategoriesAndCountriesForEdit(supplierUpdateRequest);
                 ViewBag.Errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
-                return View(response.ToSupplierUpdateRequest());
+                return View(supplierUpdateRequest);
             }
+
+            // Validate that the provided category and country names are valid
+            var category = await _supplierCategoryService.GetSupplierCategoryBySupplierCategoryName(supplierUpdateRequest.CategoryName);
+            var country = await _countryService.GetCountryByCountryName(supplierUpdateRequest.CountryName);
+
+            if (category == null || country == null)
+            {
+                ModelState.AddModelError("", "Invalid category or country selected.");
+                await PopulateSupplierCategoriesAndCountriesForEdit(supplierUpdateRequest);
+                return View(supplierUpdateRequest);
+            }
+
+            // Your service should handle the lookup of IDs based on names internally
+            SupplierResponse updatedSupplier = await _supplierService.UpdateSupplier(supplierUpdateRequest);
+            return RedirectToAction("Index");
         }
 
 
@@ -154,6 +166,18 @@ namespace WebApplication1.Controllers
 
             request.Categories = supplierCategoriesTransformed;
             request.Countries = countriesTransformed;
+        }
+
+        private async Task PopulateSupplierCategoriesAndCountriesForEdit(SupplierUpdateRequest request)
+        {
+            List<SupplierCategoryResponse> categoryResponses = await _supplierCategoryService.GetAllSupplierCategories();
+            List<SupplierCategory> supplierCategoriesTransformed = categoryResponses.Select(temp => temp.ToSupplierCategory()).ToList();
+
+            List<CountryResponse> countryResponses = await _countryService.GetAllCountries();
+            List<Country> countriesTransformed = countryResponses.Select(temp => temp.ToCountry()).ToList();
+
+            request.Categories = supplierCategoriesTransformed; // assuming SupplierUpdateRequest has these properties
+            request.Countries = countriesTransformed; // if not, add them
         }
     }
 }

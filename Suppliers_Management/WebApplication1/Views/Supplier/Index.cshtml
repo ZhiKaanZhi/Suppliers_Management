@@ -4,7 +4,6 @@
     ViewBag.Title = "Suppliers";
 }
 
-
 <h1>Suppliers</h1>
 <a asp-controller="Supplier" asp-action="AddSupplier" class="btn btn-primary">Add a Supplier</a>
 
@@ -21,7 +20,8 @@
             <th>Active</th>
             <th>Action</th>
         </tr>
-
+    </thead>
+    <tbody>
         @foreach (var supplier in Model)
         {
             <tr>
@@ -31,7 +31,7 @@
                 <td>@supplier.Address</td>
                 <td>@supplier.Phone</td>
                 <td>@supplier.Email</td>
-                <td>@supplier.CategoryName</td>
+                <td>@supplier.CountryName</td>
                 <td>@supplier.IsActive</td>
                 <td>
                     <a class="btn btn-success" href="/supplier/EditSupplier/@supplier.SupplierId">Edit</a>
@@ -41,8 +41,9 @@
                 </td>
             </tr>
         }
-    </thead>
+    </tbody>
 </table>
+
 <div>
     <a href="/" class="btn btn-secondary">Back to Home Page</a>
 </div>

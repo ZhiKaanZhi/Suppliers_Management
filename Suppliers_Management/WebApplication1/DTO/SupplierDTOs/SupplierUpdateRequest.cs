@@ -16,7 +16,7 @@ namespace WebApplication1.DTO.SupplierDTOs
         public string? SupplierName { get; set; }
 
         [Required]
-        public String? Categoryname { get; set; }
+        public String? CategoryName { get; set; }
 
         [Required]
         [StringLength(9, MinimumLength = 9)]

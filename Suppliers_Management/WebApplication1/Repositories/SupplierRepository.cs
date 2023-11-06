@@ -50,7 +50,10 @@ namespace WebApplication1.Repositories
 
         public async Task<List<Supplier>> GetAllSuppliers()
         {
-            var suppliers = await _db.Suppliers.ToListAsync();
+            var suppliers = await _db.Suppliers
+                                     .Include(s => s.Country)
+                                     .Include(s => s.Category)
+                                     .ToListAsync();
             return suppliers;
         }
 
@@ -61,15 +64,12 @@ namespace WebApplication1.Repositories
                 return null;
             }
 
-            Supplier? supplier = await _db.Suppliers.FirstOrDefaultAsync(temp => temp.SupplierId == id);
-
-            if (supplier == null)
-            {
-                return null;
-            }
+            Supplier? supplier = await _db.Suppliers
+                                          .Include(s => s.Country)
+                                          .Include(s => s.Category)
+                                          .FirstOrDefaultAsync(temp => temp.SupplierId == id);
 
             return supplier;
-
         }
 
         public async Task<Supplier> UpdateSupplier(Supplier? supplier)
@@ -78,41 +78,28 @@ namespace WebApplication1.Repositories
 
             ValidationHelper.ModelValidation(supplier);
 
-            Supplier? matchingSupplier = await _db.Suppliers.FirstOrDefaultAsync(temp => temp.SupplierId == supplier.SupplierId);
+            Supplier? matchingSupplier = await _db.Suppliers
+                .Include(s => s.Country)
+                .Include(s => s.Category)
+                .FirstOrDefaultAsync(temp => temp.SupplierId == supplier.SupplierId);
+
             if (matchingSupplier == null)
             {
                 throw new ArgumentException("Given supplier id doesn't exist");
             }
 
-            if (matchingSupplier.IsActive == true)
-            {
-                matchingSupplier.SupplierId = supplier.SupplierId;
-                matchingSupplier.SupplierName = supplier.SupplierName;
-                matchingSupplier.Address = supplier.Address;
-                matchingSupplier.Email = supplier.Email;
-                matchingSupplier.Country = supplier.Country;
-                matchingSupplier.Phone = supplier.Phone;
-                matchingSupplier.CategoryId = supplier.CategoryId;
-                matchingSupplier.CountryId = supplier.CountryId;
-                matchingSupplier.Tid = supplier.Tid;
-                matchingSupplier.IsActive = supplier.IsActive;
-                matchingSupplier.Country = supplier?.Country;
-                matchingSupplier.Category = supplier?.Category;
-            }
-            else
-            {
-                matchingSupplier.Address = supplier.Address;
-                matchingSupplier.Email = supplier.Email;
-                matchingSupplier.Country = supplier.Country;
-                matchingSupplier.Phone = supplier.Phone;
-                matchingSupplier.CategoryId = supplier.CategoryId;
-                matchingSupplier.CountryId = supplier.CountryId;
-                matchingSupplier.IsActive = supplier.IsActive;
-                matchingSupplier.Country = supplier?.Country;
-                matchingSupplier.Category = supplier?.Category;
-            }
+            matchingSupplier.Address = supplier.Address;
+            matchingSupplier.Email = supplier.Email;
+            matchingSupplier.Phone = supplier.Phone;
+            matchingSupplier.CategoryId = supplier.CategoryId;
+            matchingSupplier.CountryId = supplier.CountryId;
+            matchingSupplier.IsActive = supplier.IsActive;
 
-           
+            if (matchingSupplier.IsActive)
+            {
+                matchingSupplier.SupplierName = supplier.SupplierName;
+                matchingSupplier.Tid = supplier.Tid;
+            }
 
             await _db.SaveChangesAsync();
 

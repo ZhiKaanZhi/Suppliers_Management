@@ -26,7 +26,7 @@ namespace WebApplication1.Services
 
             Supplier? supplier = supplierAddRequest.ToSupplier();
 
-            var category = await _supplierCategoryService.GetSupplierCategoryBySupplierCategoryName(supplierAddRequest.SupplierName);
+            var category = await _supplierCategoryService.GetSupplierCategoryBySupplierCategoryName(supplierAddRequest.CategoryName);
 
             if(category != null)
             {
@@ -73,18 +73,19 @@ namespace WebApplication1.Services
 
             Supplier supplierMatching = supplierUpdateRequest.ToSupplier();
 
-            var category = await _supplierCategoryService.GetSupplierCategoryBySupplierCategoryName(supplierUpdateRequest.SupplierName);
-
-            if (category != null)
+            var category = await _supplierCategoryService.GetSupplierCategoryBySupplierCategoryName(supplierUpdateRequest.CategoryName);
+            if (category == null)
             {
-                supplierMatching.CategoryId = category.CategoryId;
+                throw new ArgumentException("Invalid Supplier Category.");
             }
+            supplierMatching.CategoryId = category.CategoryId;
 
             var country = await _countryService.GetCountryByCountryName(supplierUpdateRequest.CountryName);
-            if (country != null)
+            if (country == null)
             {
-                supplierMatching.CountryId = country.CountryId;
+                throw new ArgumentException("Invalid Country.");
             }
+            supplierMatching.CountryId = country.CountryId;
 
             Supplier supplierResponse = await _supplierRepository.UpdateSupplier(supplierMatching);
 
