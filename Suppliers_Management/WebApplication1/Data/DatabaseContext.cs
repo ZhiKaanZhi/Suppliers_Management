@@ -13,6 +13,7 @@ namespace WebApplication1.Data
         public DbSet<Supplier> Suppliers { get; set; }
         public DbSet<Country> Countries { get; set; }
         public DbSet<SupplierCategory> SupplierCategories { get; set; }
+        public DbSet<User> Users { get; set; }
 
         /*protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -28,5 +29,13 @@ namespace WebApplication1.Data
                 .HasForeignKey(s => s.CategoryId)
                 .OnDelete(DeleteBehavior.Restrict);
         }*/
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<User>().HasData(
+                new User("user1", "password1") { UserId = Guid.NewGuid() },
+                new User("user2", "password2") { UserId = Guid.NewGuid() }
+            );
+        }
     }
 }

@@ -24,6 +24,15 @@ namespace WebApplication1
             builder.Services.AddScoped<ICountryService, CountryService>();
             builder.Services.AddScoped<ICountryRepository, CountryRepository>();
 
+            builder.Services.AddTransient<UserAuthenticationService>();
+
+            builder.Services.AddSession();
+            builder.Services.AddAuthentication("CookieAuth")
+                .AddCookie("CookieAuth", config =>
+                {
+                    config.Cookie.Name = "UserLoginCookie";
+                    config.LoginPath = "/User/Login";
+                });
 
             var constr = builder.Configuration.GetConnectionString("conn");
             builder.Services.AddDbContext<DatabaseContext>(opts => opts.UseSqlServer(constr));
@@ -36,6 +45,10 @@ namespace WebApplication1
             app.UseStaticFiles();
             app.UseRouting();
             app.MapControllers();
+
+            app.UseSession();
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.Run();
         }

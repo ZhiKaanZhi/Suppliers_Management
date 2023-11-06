@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using WebApplication1.DTO.CountryDTOs;
 using WebApplication1.DTO.SupplierCategoryDTOs;
@@ -10,6 +11,7 @@ using WebApplication1.Services.ServiceInterfaces;
 namespace WebApplication1.Controllers
 {
     [Route("[controller]")]
+    [Authorize]
     public class SupplierController : Controller
     {
 

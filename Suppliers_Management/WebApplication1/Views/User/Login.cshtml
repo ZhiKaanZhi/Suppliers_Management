@@ -1,0 +1,23 @@
+﻿@model WebApplication1.DTO.AuthDTOs.UserLoginRequest
+@{
+    ViewBag.Title = "Login";
+}
+
+<h2>Login</h2>
+<p></p>
+<div class="mt-2" style="width:25%">
+    <form asp-controller="Account" asp-action="Login" method="post">
+        <div class="form-outline mb-4">
+            <label asp-for="Username" class="form-label">Username</label>
+            <input asp-for="Username" class="form-control">
+        </div>
+
+        <div class="form-outline mb-4">
+            <label asp-for="Password" class="form-label">Password</label>
+            <input asp-for="Password" class="form-control">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Login</button>
+    </form>
+</div>
+
