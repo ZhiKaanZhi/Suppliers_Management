@@ -18,6 +18,7 @@ namespace WebApplication1.DTO.SupplierDTOs
 
         [Required]
         [StringLength(9, MinimumLength = 9)]
+        [TidValidation]
         public string? Tid { get; set; }
 
         [StringLength(10, MinimumLength = 5)]

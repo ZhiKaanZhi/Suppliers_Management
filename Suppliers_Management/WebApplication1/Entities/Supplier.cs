@@ -20,7 +20,7 @@ namespace WebApplication1.Entities
 
         [Required]
         [StringLength(9, MinimumLength = 9)]
-        //[TidValidation]
+        [TidValidation]
         public string? Tid { get; set; }
 
         [StringLength(10, MinimumLength = 5)]

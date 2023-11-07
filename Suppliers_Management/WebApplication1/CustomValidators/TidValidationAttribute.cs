@@ -24,25 +24,16 @@ namespace WebApplication1.CustomValidators
 
         private bool IsValidTaxpayerId(string taxpayerId)
         {
-
             int sum = 0;
             foreach (char c in taxpayerId)
             {
                 if (!char.IsDigit(c))
-                    return false;  // TaxpayerId should only have digits
+                    return false;  
                 sum += c - '0';
             }
-
-            if((sum % 11 == 10 && taxpayerId[0] == 0) || (sum % 11 == taxpayerId[0]))
-            {
-               return true;
-            }
-            else
-            {
-                return false;
-            }
-
-          
+        
+            int firstDigit = taxpayerId[0] - '0';
+            return (sum % 11 == 10 && firstDigit == 0) || (sum % 11 == firstDigit);
         }
     }
 }
