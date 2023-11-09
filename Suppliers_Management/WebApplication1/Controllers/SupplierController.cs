@@ -14,11 +14,12 @@ namespace WebApplication1.Controllers
     [Authorize]
     public class SupplierController : Controller
     {
-
+        // Services injected through the constructor
         private readonly ISupplierService _supplierService;
         private readonly ICountryService _countryService;
         private readonly ISupplierCategoryService _supplierCategoryService;
 
+        // Constructor to inject dependencies
         public SupplierController(ISupplierService supplierService, ICountryService countryService, ISupplierCategoryService supplierCategoryService)
         {
             _supplierService = supplierService;
@@ -26,6 +27,8 @@ namespace WebApplication1.Controllers
             _supplierCategoryService = supplierCategoryService;
         }
 
+
+        // Action to display the list of suppliers
         [Route("[action]")]
         public async Task<IActionResult> Index()
         {
@@ -34,6 +37,7 @@ namespace WebApplication1.Controllers
         }
 
 
+        // Action to find and display a single supplier by ID
         [HttpGet]
         [Route("[action]/{id}")]
         public async Task<IActionResult> FindSupplier(Guid id)
@@ -47,7 +51,7 @@ namespace WebApplication1.Controllers
             return View(supplierResponse);
         }
 
-
+        // GET action to display the AddSupplier view
         [Route("[action]")]
         [HttpGet]
         public async Task<IActionResult> AddSupplier()
@@ -60,6 +64,7 @@ namespace WebApplication1.Controllers
             return View(viewModel);
         }
 
+        // POST action to add a new supplier
         [Route("[action]")]
         [HttpPost]
         public async Task<IActionResult> AddSupplier(SupplierAddRequest supplierAddRequest)
@@ -84,7 +89,7 @@ namespace WebApplication1.Controllers
 
 
 
-
+        // GET action to display the EditSupplier view
         [HttpGet]
         [Route("[action]/{id}")]
         public async Task<IActionResult> EditSupplier(Guid id)
@@ -102,6 +107,8 @@ namespace WebApplication1.Controllers
             return View(supplierUpdateRequest);
         }
 
+
+        // POST action to update an existing supplier
         [HttpPost]
         [Route("[action]/{id}")]
         public async Task<IActionResult> EditSupplier(SupplierUpdateRequest supplierUpdateRequest)
@@ -120,7 +127,6 @@ namespace WebApplication1.Controllers
                 return View(supplierUpdateRequest);
             }
 
-            // Validate that the provided category and country names are valid
             var category = await _supplierCategoryService.GetSupplierCategoryBySupplierCategoryName(supplierUpdateRequest.CategoryName);
             var country = await _countryService.GetCountryByCountryName(supplierUpdateRequest.CountryName);
 
@@ -131,13 +137,12 @@ namespace WebApplication1.Controllers
                 return View(supplierUpdateRequest);
             }
 
-            // Your service should handle the lookup of IDs based on names internally
-            SupplierResponse updatedSupplier = await _supplierService.UpdateSupplier(supplierUpdateRequest);
+            _ = await _supplierService.UpdateSupplier(supplierUpdateRequest);
             return RedirectToAction("Index");
         }
 
 
-
+        // POST action to delete a supplier
         [HttpPost]
         [Route("[action]/{id}")]
         public async Task<IActionResult> DeleteSupplier(Guid id)
@@ -157,7 +162,7 @@ namespace WebApplication1.Controllers
 
 
 
-
+        // Helper method to populate categories and countries for the AddSupplier view
         private async Task PopulateSupplierCategoriesAndCountries(SupplierAddRequest request)
         {
             List<SupplierCategoryResponse> categoryResponses = await _supplierCategoryService.GetAllSupplierCategories();
@@ -170,6 +175,8 @@ namespace WebApplication1.Controllers
             request.Countries = countriesTransformed;
         }
 
+
+        // Helper method to populate categories and countries for the EditSupplier view
         private async Task PopulateSupplierCategoriesAndCountriesForEdit(SupplierUpdateRequest request)
         {
             List<SupplierCategoryResponse> categoryResponses = await _supplierCategoryService.GetAllSupplierCategories();
@@ -178,8 +185,8 @@ namespace WebApplication1.Controllers
             List<CountryResponse> countryResponses = await _countryService.GetAllCountries();
             List<Country> countriesTransformed = countryResponses.Select(temp => temp.ToCountry()).ToList();
 
-            request.Categories = supplierCategoriesTransformed; // assuming SupplierUpdateRequest has these properties
-            request.Countries = countriesTransformed; // if not, add them
+            request.Categories = supplierCategoriesTransformed; 
+            request.Countries = countriesTransformed; 
         }
     }
 }
