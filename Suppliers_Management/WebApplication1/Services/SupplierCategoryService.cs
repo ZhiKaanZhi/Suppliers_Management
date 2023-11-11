@@ -19,6 +19,7 @@ namespace WebApplication1.Services
         public async Task<SupplierCategoryResponse> AddSupplierCategory(SupplierCategoryAddRequest? supplierCategoryAddRequest)
         {
             if (supplierCategoryAddRequest == null) throw new ArgumentNullException(nameof(supplierCategoryAddRequest));
+            if (supplierCategoryAddRequest.Description == null) throw new ArgumentException(nameof(supplierCategoryAddRequest));
             SupplierCategory? supplierCategory = supplierCategoryAddRequest.toSupplierCategory();
 
             SupplierCategory? supplierCategoryResponse = await _supplierCategoryRepository.AddSupplierCategory(supplierCategory);

@@ -18,7 +18,7 @@ namespace WebApplication1.Repositories
 
         public async Task<Country> AddCountry(Country? country)
         {
-            if (country == null)
+            if (country == null || country.CountryName == null)
             {
                 throw new ArgumentNullException(nameof(country));
             }

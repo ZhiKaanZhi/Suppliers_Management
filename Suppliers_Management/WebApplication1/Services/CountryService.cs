@@ -19,6 +19,7 @@ namespace WebApplication1.Services
         public async Task<CountryResponse> AddCountry(CountryAddRequest? countryAddRequest)
         {
             if (countryAddRequest == null) throw new ArgumentNullException(nameof(countryAddRequest));
+            if (countryAddRequest.CountryName == null) throw new ArgumentException(nameof(countryAddRequest));
             Country? country = countryAddRequest.toCountry();
 
             Country? countryResponse = await _countryRepository.AddCountry(country);
