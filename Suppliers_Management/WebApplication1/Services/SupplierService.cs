@@ -26,6 +26,11 @@ namespace WebApplication1.Services
             
             if (supplierAddRequest == null) throw new ArgumentNullException(nameof(supplierAddRequest));
 
+            if(supplierAddRequest.SupplierName == null || supplierAddRequest.CategoryName == null || supplierAddRequest.CountryName == null || supplierAddRequest.Address == null || supplierAddRequest.Phone == null || supplierAddRequest.Email == null)
+            {
+                throw new ArgumentException(nameof(supplierAddRequest));
+            }
+
             Supplier? supplier = supplierAddRequest.ToSupplier();
 
             var category = await _supplierCategoryService.GetSupplierCategoryBySupplierCategoryName(supplierAddRequest.CategoryName);
